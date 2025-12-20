@@ -4,9 +4,9 @@ import * as React from "react"
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
-import { BookOpen, House, SquareTerminal, AudioWaveform, Settings2, Bell, LayoutDashboard, Building2, Stethoscope, Users, CalendarCheck } from "lucide-react"
+import { BookOpen, House, SquareTerminal, AudioWaveform, Settings2, Bell, LayoutDashboard, Building2, Stethoscope, Users, CalendarCheck, Heading1Icon } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "./ui/sidebar"
-import { Route } from "../app/patient/dashboard/PageWrapper"
+import { Route } from "@/app/admin/dashboard/[id]/PageWrapper"
 
 const navItems = [
   { id: "dashboard", title: "Dashboard", icon: LayoutDashboard },
@@ -14,6 +14,7 @@ const navItems = [
   { id: "doctors", title: "Doctors", icon: Stethoscope },
   { id: "patients", title: "Patients", icon: Users },
   { id: "appointments", title: "Appointments", icon: CalendarCheck },
+  { id: "admin-info", title: "Admin", icon: Heading1Icon },
   { id: "notifications", title: "Notifications", icon: Bell },
 ]
 
@@ -21,13 +22,15 @@ const navItems = [
 
 interface AppSidebarProps {
   active: string
-  setActive: (id: Route) => void
+  // setActive: (id: Route) => void
+  setActive: React.Dispatch<React.SetStateAction<Route>>
   user : {
     given_name?: string | undefined | any
     email?: string | undefined | any
     image?: string | undefined | any
   }
 }
+
 
 export function AdminSidebar({ active, user, setActive }: AppSidebarProps) {
 

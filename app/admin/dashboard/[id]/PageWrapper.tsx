@@ -11,6 +11,8 @@ import AdminDashboardContent, { AdminDashboardType } from "./AdminDashboardConte
 export type Route =
   | "dashboard"
   | "departments"
+  | "doctors"
+  | "patients"
   | "admin-info"
   | "appointments"
   | "notifications"
@@ -26,7 +28,7 @@ export default function PageWrapper({ kindeUser }: { kindeUser: any }) {
   const [adminInfo, setAdminInfo] = useState<AdminDoctorInfoType>()
   const [adminInfoLoading, setAdminInfoLoading] = useState(false)
   
-  const [departments, setDepartments] = useState<DepartmentProps>()
+  const [departments, setDepartments] = useState<DepartmentProps[]>()
   const [departmentsLoading, setDepartmentsLoading] = useState(false)
 
   // Fetch dashboard only when dashboard tab is active

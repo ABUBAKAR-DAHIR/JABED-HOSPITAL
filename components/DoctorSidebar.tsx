@@ -6,7 +6,7 @@ import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import { BookOpen, House, SquareTerminal, AudioWaveform, Settings2, Bell } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "./ui/sidebar"
-import { Route } from "../app/patient/dashboard/PageWrapper"
+import { Route } from "@/app/doctor/dashboard/[id]/PageWrapper"
 
 const navItems = [
   { id: "dashboard", title: "Dashboard", icon: SquareTerminal },

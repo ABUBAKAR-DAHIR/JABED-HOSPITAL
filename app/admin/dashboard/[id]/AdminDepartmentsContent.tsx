@@ -32,7 +32,7 @@ export type DepartmentProps = {
 }
 
 type AdminDepartmentProps = {
-  departments?: DepartmentProps[] | null
+  departments?: DepartmentProps[] | null | undefined
 }
 
 /* =======================
