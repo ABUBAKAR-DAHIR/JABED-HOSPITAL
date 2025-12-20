@@ -9,7 +9,7 @@
 A modern, role-based **Hospital Management System** built using **Next.js (App Router)**, **TypeScript**, **Prisma**, and **Tailwind CSS**.  
 This project focuses on clean UI, structured backend logic, and scalable architecture — ideal for managing hospital operations digitally.
 
-🔗 **Live Demo:** *(Coming soon)*
+🔗 **Live Demo:** [https://jabed-hospital.vercel.app/](https://jabed-hospital.vercel.app/)
 
 ---
 
