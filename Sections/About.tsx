@@ -37,7 +37,7 @@ export default function About() {
 
             <motion.p
               variants={fadeUp}
-              className="text-gray-700 dark:text-gray-300 text-lg max-md:text-base"
+              className="text-gray-700 dark:text-gray-300 text-lg max-md:text-[15px] max-md:text-center"
             >
               At Jabed Hospital, we combine advanced medical technology with compassionate care.
               Our dedicated team ensures every patient receives personalized treatment in a safe,
@@ -84,7 +84,7 @@ export default function About() {
               Our Journey
             </h3>
 
-            <p className="text-gray-700 dark:text-gray-300 text-lg">
+            <p className="text-gray-700 dark:text-gray-300 text-lg max-md:text-base">
               Founded in 2010, Jabed Hospital began with a small team of dedicated doctors
               and nurses, driven by a vision to provide world-class healthcare to our community.
             </p>

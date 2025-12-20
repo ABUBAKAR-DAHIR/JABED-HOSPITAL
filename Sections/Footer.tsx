@@ -19,7 +19,7 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-16">
         <motion.div
           variants={gridContainer}
-          className="grid grid-cols-1 gap-12 md:grid-cols-4"
+          className="grid grid-cols-1 gap-12 md:grid-cols-4 max-md:flex max-md:flex-wrap max-md:pl-4"
         >
 
           {/* Brand */}
