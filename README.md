@@ -1,7 +1,7 @@
 # 🏥 Hospital Management System (HMS)
 
 <p align="center">
-  <img src="public/hero/hospital.png" alt="Hospital Management System Banner" width="100%" />
+  <img src="public/hero/hospital.png" alt="Hospital Management System Banner" height='200' width="100%" />
 </p>
 
 ## JABED HOSPITAL
