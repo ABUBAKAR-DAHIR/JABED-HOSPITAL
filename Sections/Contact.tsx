@@ -35,7 +35,12 @@ export default function Contact() {
         const getRes = await fetch('/api/message', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                phone: phone,
+                message: message
+            })
         })
 
         const res = await getRes.json()
