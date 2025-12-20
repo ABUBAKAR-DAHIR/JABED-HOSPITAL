@@ -1,36 +1,182 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏥 Hospital Management System (HMS)
 
-## Getting Started
+<p align="center">
+  <img src="public/hero/hospital.png" alt="Hospital Management System Banner" width="100%" />
+</p>
 
-First, run the development server:
+## JABED HOSPITAL
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+A modern, role-based **Hospital Management System** built using **Next.js (App Router)**, **TypeScript**, **Prisma**, and **Tailwind CSS**.  
+This project focuses on clean UI, structured backend logic, and scalable architecture — ideal for managing hospital operations digitally.
+
+🔗 **Live Demo:** *(Coming soon)*
+
+---
+
+## 🚀 Tech Stack
+
+- **Next.js** – Full-stack React framework
+- **TypeScript** – Type-safe development
+- **Prisma ORM** – Database modeling & queries
+- **PostgreSQL** – Relational database
+- **Tailwind CSS** – Utility-first styling
+- **shadcn/ui** – Reusable UI components
+- **pnpm** – Fast package manager
+
+---
+
+## ✨ Features
+
+- Role-based authentication (Admin / Doctor / Patient)
+- Admin dashboard with system statistics
+- Doctor dashboard with appointment access
+- Patient registration & appointment booking
+- Department & doctor management
+- Clean and modern UI
+- Scalable folder structure
+- Secure API routes
+- Full-stack (frontend + backend)
+
+---
+
+## 📁 Folder Structure
+
+```text
+hms/
+│
+├── app/
+│ ├── admin/
+│ │ ├── login/
+│ │ └── dashboard/[id]/
+│ │
+│ ├── doctor/
+│ │ ├── login/
+│ │ └── dashboard/[id]/
+│ │
+│ ├── patient/
+│ │ ├── registerPatient/
+│ │ ├── appointments/
+│ │ └── dashboard/
+│ │
+│ ├── api/
+│ │ ├── admin/
+│ │ ├── doctor/
+│ │ ├── patient/
+│ │ └── auth/
+│ │
+│ ├── layout.tsx
+│ ├── page.tsx
+│ └── globals.css
+│
+├── components/
+│ ├── ui/
+│ ├── AdminSidebar.tsx
+│ ├── DoctorSidebar.tsx
+│ ├── SpinnerCustom.tsx
+│ └── Header.tsx
+│
+├── sections/
+│ ├── Hero.tsx
+│ ├── About.tsx
+│ ├── Contact.tsx
+│ ├── Footer.tsx
+│ └── Header.tsx
+│
+├── prisma/
+│ ├── schema.prisma
+│ └── prisma.config.ts
+│
+├── seed/
+│ ├── adminSeed.ts
+│ └── doctorSeed.ts
+│
+├── public/
+│ └── assets/
+│
+├── lib/
+│ └── generated/prisma
+│
+├── constants/
+├── hooks/
+├── .env
+├── tailwind.config.ts
+├── next.config.ts
+├── tsconfig.json
+├── package.json
+├── pnpm-lock.yaml
+└── README.md
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧠 Architecture Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- App Router handles routing and layouts
+- Admin, Doctor, and Patient modules are role-isolated
+- API routes live inside `/app/api`
+- Prisma manages database schema and queries
+- Reusable UI components via **shadcn/ui**
+- Clean separation of frontend and backend logic
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js (v18+ recommended)
+- PostgreSQL
+- pnpm (`npm install -g pnpm`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+```bash
+pnpm install
+pnpm dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+``` 
+Open http://localhost:3000 in your browser.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+Production Build
+pnpm build
+pnpm start
+
+```
+
+## 📦 Scripts
+
+- `pnpm dev` – Start development server
+- `pnpm build` – Build for production
+- `pnpm start` – Run production server
+- `pnpm prisma studio` – Open Prisma Studio
+- `pnpm prisma db seed` – Seed database
+
+---
+
+## 🎨 Styling
+
+- Tailwind CSS for utility-first styling
+- shadcn/ui for accessible components
+- Responsive layouts using Tailwind breakpoints
+- Dark-mode friendly UI
+
+---
+
+## 📌 Notes
+
+- Built as a Minimum Viable Product (MVP)
+- Designed for real-world hospital workflows
+- Easily extendable with analytics and billing
+- Clean, scalable full-stack architecture
+
+---
+
+## 👤 Author
+
+Built by **Abubakar**
+
+---
+
+## 📄 License
+
+This project is intended for educational and demonstration purposes.
