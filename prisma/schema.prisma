@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Patient {
+  id                String   @id @default(uuid())
+  kindId            String?  @unique
+  firstName         String
+  middleName        String?
+  lastName          String
+  phone             String
+  gender            String
+  dob               DateTime
+  state             String
+  city              String
+  address1          String
+  address2          String?
+  allergies         String?
+  medications       String?
+  surgeries         String?
+  chronicConditions String?
+  notes             String?
+  appointment       Appointment[]
+  doctor            Doctor[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Appointment {
+  id          String   @id @default(uuid())
+  patientId   String
+  fullName    String
+  phoneNumber String
+  time        DateTime
+  reason      String
+  resolved    Boolean @default(false)
+  assignedDoctor String? 
+  patient     Patient @relation(fields: [patientId], references: [id])
+  doctor      Doctor[]
+  department  Department[]
+  createdAt   DateTime @default(now())
+}
+
+model Department {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  doctors Doctor[]
+  appointments Appointment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Doctor {
+  id          String   @id @default(uuid())
+  firstName   String
+  middleName  String?
+  lastName    String
+  phone       String
+  gender      String
+  dob         DateTime
+  state       String
+  city        String
+  address1    String
+  address2    String?
+  patient     Patient[]
+  appointment Appointment[]
+
+  email       String   @unique
+  password    String
+
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+model Admin {
+  id          String @id @default(uuid())
+  firstName   String
+  middleName  String?
+  lastName    String
+  phone       String
+  gender      String
+  dob         DateTime
+  state       String
+  city        String
+  address1    String
+  address2    String?
+
+  email       String   @unique
+  password    String
+
+  lastLogin   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

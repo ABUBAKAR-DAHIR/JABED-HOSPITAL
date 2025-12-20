@@ -1,0 +1,51 @@
+import prisma from "@/lib/prisma"
+import { NextResponse } from "next/server"
+
+export async function GET(req: Request, {params} : {params: Promise<{id: string}>}){
+    try {
+        const newPara = await params
+        const id = newPara.id
+    
+        if(!id) return NextResponse.json({success: false, error: 'No params id'})
+    
+        const admin = await prisma.admin.findUnique({
+            where: {id: id},
+        })
+    
+        if(!admin) return NextResponse.json({success: false, error: 'Invalid admin id'})
+        
+    
+        const appointments = await prisma.appointment.findMany()
+        const doctors = await prisma.doctor.findMany()
+        const departments = await prisma.department.findMany()
+        const patients = await prisma.patient.findMany()
+
+        appointments.map(appointment => {
+            return {
+                time: appointment.time,
+                patientName: appointment.fullName,
+                reson: appointment.reason,
+                resold: appointment.resolved
+            }
+        })
+        
+        const adminInfo = {
+            adminName: admin.firstName,
+            email: admin.email,
+            gender: admin.gender,
+            stats: {
+                doctors: doctors.length,
+                patients: patients.length,
+                appointments: appointments.length,
+                departments: departments.length
+            }
+        }
+    
+        return NextResponse.json({success: true, adminInfo})
+        
+    } catch (error: any) {
+        console.log("Server error: ", error.message)
+        return NextResponse.json({success: false, error: error.message})
+    }
+
+}
