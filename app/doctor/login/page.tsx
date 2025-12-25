@@ -82,7 +82,7 @@ export default function doctorLoginPage() {
                     Password
                   </label>
                   <Input
-                    type="password text-white"
+                    type="password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
