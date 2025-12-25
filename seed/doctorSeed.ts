@@ -47,6 +47,7 @@ async function main() {
         email: "ayaan.khan@hospital.com",
         password: passwordHash,
         departmentId: cardiology.id,
+        imageUrl: ""
       },
       {
         firstName: "Zaid",
@@ -60,6 +61,7 @@ async function main() {
         email: "zaid.ahmed@hospital.com",
         password: passwordHash,
         departmentId: neurology.id,
+        imageUrl: ""
       },
       {
         firstName: "Faizan",
@@ -73,6 +75,7 @@ async function main() {
         email: "faizan.shaikh@hospital.com",
         password: passwordHash,
         departmentId: orthopedics.id,
+        imageUrl: ""
       },
       {
         firstName: "Ayesha",
@@ -86,6 +89,7 @@ async function main() {
         email: "ayesha.siddiqui@hospital.com",
         password: passwordHash,
         departmentId: pediatrics.id,
+        imageUrl: ""
       },
       {
         firstName: "Zara",
@@ -99,6 +103,7 @@ async function main() {
         email: "zara.farooq@hospital.com",
         password: passwordHash,
         departmentId: gynecology.id,
+        imageUrl: ""
       },
     ],
     skipDuplicates: true,
