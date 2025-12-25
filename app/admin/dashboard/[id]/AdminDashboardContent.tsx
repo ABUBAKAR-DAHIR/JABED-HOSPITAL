@@ -46,14 +46,43 @@ export default function AdminDashboardContent({ dashboard }: Props) {
 
   if (!dashboard) {
     return (
-      <div className="p-4 space-y-6">
-        <Skeleton className="h-10 w-1/3" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className="h-32 rounded-xl" />
-          ))}
+      <div className="flex flex-col gap-8 p-4 pt-0 md:px-10">
+
+      {/* 🌟 Header Skeleton */}
+      <div className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-2xl border p-6 animate-pulse flex flex-col md:flex-row items-start gap-4">
+        <div className="p-3 rounded-xl bg-gray-200 flex items-center justify-center">
+          <Skeleton className="h-7 w-7 rounded-full" />
+        </div>
+
+        <div className="flex-1 space-y-2 w-full">
+          <Skeleton className="h-8 w-3/4 rounded-lg" /> {/* Welcome message */}
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-16 rounded-full" /> {/* Gender Badge */}
+          </div>
+          <Skeleton className="h-4 w-1/2 rounded-md mt-2" /> {/* Email */}
         </div>
       </div>
+
+      {/* 📊 Stats Cards Skeleton */}
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="border rounded-xl p-4 flex flex-col gap-4 animate-pulse shadow-sm hover:shadow-md transition"
+          >
+            <div className="flex justify-between items-center">
+              <Skeleton className="h-5 w-24 rounded" /> {/* Title */}
+              <Skeleton className="h-6 w-6 rounded-full" /> {/* Icon circle */}
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-10 w-1/2 rounded-lg" /> {/* Value */}
+              <Skeleton className="h-3 w-3/4 rounded-md" /> {/* Subtitle */}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
     )
   }
 
@@ -69,17 +98,17 @@ export default function AdminDashboardContent({ dashboard }: Props) {
         className="relative w-7/8 mx-auto overflow-hidden rounded-2xl border p-6"
       >
         <div className="flex items-start gap-4">
-          <div className="p-3 rounded-xl bg-primary/10">
-            <ShieldCheck className="h-7 w-7 text-primary" />
+          <div className="p-3 max-md:p-2 rounded-xl bg-primary/10">
+            <ShieldCheck className="h-7 w-7 text-primary max-md:size-4" />
           </div>
 
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-3xl max-md:text-2xl font-bold tracking-tight">
               Welcome, {dashboard.adminName}
             </h1>
 
             <div className="">
-              <Badge variant="default">
+              <Badge variant="default" className="max-md:text-[10px]">
                 {dashboard.gender}
               </Badge>
 

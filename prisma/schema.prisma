@@ -60,6 +60,7 @@ model Doctor {
   firstName   String
   middleName  String?
   lastName    String
+  imageUrl    String  // added this now 
   phone       String
   gender      String
   dob         DateTime

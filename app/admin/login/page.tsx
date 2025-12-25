@@ -47,8 +47,8 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-6xl h-[70%] grid grid-cols-1 lg:grid-cols-[1fr_1fr] rounded-2xl overflow-hidden shadow-2xl">
 
         {/* LEFT — LOGIN */}
-        <div className="bg-neutral-950 flex items-center justify-center">
-          <Card className="h-full w-full bg-neutral-900 border border-neutral-800 shadow-none rounded-none flex flex-col justify-center px-12">
+        <div className="bg-neutral-950 flex items-center justify-center max-md:px-10">
+          <Card className="h-full w-full bg-neutral-900 border border-neutral-800 shadow-none rounded-none flex flex-col justify-center md:px-12">
             <CardHeader className="space-y-2 pb-6">
               <CardTitle className="text-3xl font-semibold text-white">
                 Admin Login
@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
-                    className="h-11 bg-neutral-950 border-neutral-800 focus:border-green-500 focus:ring-green-500"
+                    className="mt-2 h-11 bg-neutral-950 border-neutral-800 focus:border-green-500 focus:ring-green-500 max-md:w-full"
                   />
                 </div>
 
@@ -87,7 +87,7 @@ export default function AdminLoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="h-11 bg-neutral-950 border-neutral-800 focus:border-green-500 focus:ring-green-500"
+                    className="mt-2 h-11 bg-neutral-950 border-neutral-800 focus:border-green-500 focus:ring-green-500"
                   />
                 </div>
 

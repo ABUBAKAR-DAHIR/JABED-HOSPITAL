@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import prisma from "@/lib/prisma"
 import CantAccess from "./CantAccess"
 import PageWrapper from "./PageWrapper"
+import { getDepartments } from "./departments"
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const newPara = await params
@@ -13,6 +14,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   })
 
   if (!admin) return <CantAccess />
+  const departments = await getDepartments()
 
-  return <PageWrapper kindeUser={admin} />
+  return <PageWrapper kindeUser={admin} departmentNames={departments}/>
 }
