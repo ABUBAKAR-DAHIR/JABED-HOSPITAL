@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -12,6 +12,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { toast } from 'sonner'
+
+export type Doctor = {
+  name: string
+  docId: string
+}
 
 export type AdminAppointmentType = {
   id: string
@@ -21,11 +27,13 @@ export type AdminAppointmentType = {
   reason: string
   resolved: boolean
   assignedDoctor?: string | null
+  doctors: Doctor[]
   createdAt: string
 }
 
 export default function AdminAppointments({ appointments }: { appointments?: AdminAppointmentType[] }) {
   const hasAppointments = appointments && appointments.length > 0
+  const [openAssignDialog, setOpenAssignDialog] = useState(false)
 
   return (
     <div className="space-y-8 p-6">
@@ -34,7 +42,7 @@ export default function AdminAppointments({ appointments }: { appointments?: Adm
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {hasAppointments
-          ? appointments!.map((appointment) => (
+          ? appointments!.map((appointment) => (<>
               <Dialog key={appointment.id}>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition p-4 animate-none">
@@ -69,8 +77,56 @@ export default function AdminAppointments({ appointments }: { appointments?: Adm
                     {appointment.assignedDoctor && <p><span className="font-medium">Assigned Doctor:</span> {appointment.assignedDoctor}</p>}
                     <p className="text-xs text-gray-400">Created on {new Date(appointment.createdAt).toDateString()}</p>
                   </div>
+                  <div className="flex justify-between px-10">
+                    <Button variant="destructive" className='px-10 max-md:px-8 cursor-pointer'>Reject</Button>
+                    
+                    {/* Assigning a doctor to the appointment */}
+                    <Button onClick={() => setOpenAssignDialog(true)} variant="default" className='px-10 max-md:px-8 cursor-pointer'>Assign</Button>
+                  </div>
                 </DialogContent>
               </Dialog>
+
+                {/* Second Dialog for assigning doctor */}
+              <Dialog open={openAssignDialog} onOpenChange={setOpenAssignDialog}>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className='text-center my-4 max-md:my-2'>Assign a Doctor</DialogTitle>
+                  </DialogHeader>
+
+                  {/* your doctor selection UI here */}
+                  <div className='overflow-y-scroll'>
+                    {
+                      appointment.doctors.map(doc => (
+                        <Button key={doc.docId} variant="outline" className='w-full cursor-pointer mb-2' onClick={async () => {
+                          try {
+                            console.log("Doctor: ", doc)
+                              const res = await fetch('/api/admin/assignDoctor', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ doctor: doc.docId, appointmentId: appointment.id }),
+                              })
+    
+                              const data = await res.json()
+                              if (data.success) {
+                                setOpenAssignDialog(false);
+                                toast.success("Doctor assigned successfully")
+                              }
+                              else{
+                                toast.error("Something went wrong")
+                                console.error(data.error)
+                              }
+                          } catch (error: any) {
+                            console.error("Frotend error: ", error.message)
+                            toast.error("Something went wrong. please try again later")
+                          }
+                        }                   
+                        }>{doc.name}</Button>
+                      ))
+                    }
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </>
             ))
           : Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="animate-pulse rounded-xl border border-gray-200 shadow-sm overflow-hidden p-4">

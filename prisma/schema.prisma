@@ -25,26 +25,48 @@ model Patient {
   surgeries         String?
   chronicConditions String?
   notes             String?
-  appointment       Appointment[]
-  doctor            Doctor[]
+
+  appointments      Appointment[]   // ✅ source of truth
+
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
 
 model Appointment {
-  id          String   @id @default(uuid())
-  patientId   String
-  fullName    String
-  phoneNumber String
-  time        DateTime
-  reason      String
-  resolved    Boolean @default(false)
-  assignedDoctor String? 
-  patient     Patient @relation(fields: [patientId], references: [id])
-  doctor      Doctor[]
-  department  Department[]
-  createdAt   DateTime @default(now())
+  id              String   @id @default(uuid())
+
+  patientId       String
+  doctorId        String?     // ✅ FK
+  departmentId    String?
+
+  fullName        String
+  phoneNumber     String
+  time            DateTime
+  reason          String
+  resolved        Boolean @default(false)
+
+  patient         Patient   @relation(fields: [patientId], references: [id])
+  doctor          Doctor?    @relation(fields: [doctorId], references: [id])
+  department      Department? @relation(fields: [departmentId], references: [id])
+
+  createdAt       DateTime @default(now())
 }
+
+
+// model Appointment {
+//   id          String   @id @default(uuid())
+//   patientId   String
+//   fullName    String
+//   phoneNumber String
+//   time        DateTime
+//   reason      String
+//   resolved    Boolean @default(false)
+//   assignedDoctor String? 
+//   patient     Patient @relation(fields: [patientId], references: [id])
+//   doctor      Doctor[]
+//   department  Department[]
+//   createdAt   DateTime @default(now())
+// }
 
 model Department {
   id      String   @id @default(uuid())
@@ -60,7 +82,7 @@ model Doctor {
   firstName   String
   middleName  String?
   lastName    String
-  imageUrl    String  // added this now 
+  imageUrl    String
   phone       String
   gender      String
   dob         DateTime
@@ -68,8 +90,6 @@ model Doctor {
   city        String
   address1    String
   address2    String?
-  patient     Patient[]
-  appointment Appointment[]
 
   email       String   @unique
   password    String
@@ -77,9 +97,38 @@ model Doctor {
   departmentId String?
   department   Department? @relation(fields: [departmentId], references: [id])
 
+  appointments Appointment[]   // ✅ correct
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+
+// model Doctor {
+//   id          String   @id @default(uuid())
+//   firstName   String
+//   middleName  String?
+//   lastName    String
+//   imageUrl    String  // added this now 
+//   phone       String
+//   gender      String
+//   dob         DateTime
+//   state       String
+//   city        String
+//   address1    String
+//   address2    String?
+//   patient     Patient[]
+//   appointment Appointment[]
+
+//   email       String   @unique
+//   password    String
+
+//   departmentId String?
+//   department   Department? @relation(fields: [departmentId], references: [id])
+
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// }
 
 
 model Admin {
@@ -94,6 +143,7 @@ model Admin {
   city        String
   address1    String
   address2    String?
+  imageUrl    String
 
   email       String   @unique
   password    String

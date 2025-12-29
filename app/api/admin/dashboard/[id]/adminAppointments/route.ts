@@ -12,6 +12,8 @@ export async function GET(req: Request) {
       orderBy: { time: "desc" }
     })
 
+    const doctors = await prisma.doctor.findMany()
+
     const formattedAppointments = appointments.map(a => ({
       id: a.id,
       fullName: a.fullName,
@@ -19,7 +21,12 @@ export async function GET(req: Request) {
       time: a.time.toISOString(),
       reason: a.reason,
       resolved: a.resolved,
-      assignedDoctor: a.assignedDoctor,
+      // assignedDoctor: a.doctor,
+      assignedDoctor: a.doctor ? a.doctor.firstName + " " + a.doctor.lastName : null,
+      doctors: doctors.map(doc => ({
+        name: doc.firstName + " " + doc.lastName,
+        docId: doc.id
+      })),
       createdAt: a.createdAt.toISOString()
     }))
 

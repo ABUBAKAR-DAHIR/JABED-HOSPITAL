@@ -15,6 +15,7 @@ import { toast } from 'sonner'
 import { SpinnerCustom } from '@/components/SpinnerCustom'
 
 export type AdminDoctor = {
+  id: string
   firstName: string
   middleName?: string | null
   lastName: string
@@ -42,6 +43,8 @@ export default function AdminDoctorsContent({ doctors, departments, kindeUser }:
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [open, setOpen] = useState(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [docId, setDocId] = useState<string>("")
+
   // STATE FOR FORM INPUTS
   const [formData, setFormData] = useState({
     firstName: '',
@@ -130,6 +133,26 @@ export default function AdminDoctorsContent({ doctors, departments, kindeUser }:
     }
   }
 
+  // deleting a doctor
+  const handleDelDoctor = async () => {
+    try {
+      const getRes = await fetch(`/api/doctor/dashboard/${kindeUser.id}/delDoctor`,{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: docId})
+      })
+      const res = await getRes.json()
+      if(res.success) toast.success("Doctor deleted successfully")
+      else{
+        console.error(res.error)
+        toast.error("Oops! Something went wrong")
+      }
+    
+    } catch (error: any) {
+      console.error("Frontend Error: ", error.message)
+      toast.error("Something went wrong! please try again later")
+    }
+  }
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -380,7 +403,27 @@ export default function AdminDoctorsContent({ doctors, departments, kindeUser }:
                     {/* Actions */}
                     <div className="flex gap-2 pt-4">
                     <Button variant="outline" className="flex-1 cursor-pointer hover:opacity-80">Edit</Button>
-                    <Button variant="destructive" className="flex-1 cursor-pointer hover:opacity-80">Delete</Button>
+                    <Button variant="destructive" className="flex-1 cursor-pointer hover:opacity-80" onClick={
+                      async () => {
+                        try {
+                          const getRes = await fetch(`/api/doctor/dashboard/${kindeUser.id}/delDoctor`,{
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({id: doctor.id})
+                          })
+                          const res = await getRes.json()
+                          if(res.success) toast.success("Doctor deleted successfully")
+                          else{
+                            console.error(res.error)
+                            toast.error("Oops! Something went wrong")
+                          }
+                        
+                        } catch (error: any) {
+                          console.error("Frontend Error: ", error.message)
+                          toast.error("Something went wrong! please try again later")
+                        }
+
+                      }}>Delete</Button>
                     </div>
                 </DialogContent>
                 </Dialog>

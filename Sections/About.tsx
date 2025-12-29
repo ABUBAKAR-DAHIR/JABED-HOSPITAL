@@ -16,7 +16,7 @@ export default function About() {
       className="py-20 flex items-center justify-center md:px-40 "
     >
       <div className="container">
-        <div className="relative mx-auto grid md:grid-cols-2 gap-40 items-center max-md:px-6">
+        <div className="relative mx-auto grid xl:grid-cols-2 gap-40 items-center max-md:px-6">
 
           {/* LEFT */}
           <motion.div
@@ -69,6 +69,7 @@ export default function About() {
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="md:block absolute left-1/2 top-0 bottom-0 w-px
+            max-xl:left-0 max-xl:right-0 max-xl:top-1/2 max-xl:h-px max-xl:w-full max-xl:my-10
             max-md:left-0 max-md:right-0 max-md:top-1/2 max-md:h-px max-md:w-full
             bg-gray-300 dark:bg-gray-600"
           />

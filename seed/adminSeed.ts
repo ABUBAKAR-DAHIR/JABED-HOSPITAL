@@ -22,7 +22,9 @@ async function main() {
       address1: "Jyatha Marg, Ward 26, Thamel, Kathmandu",
       address2: "Baneshwor, Kathmandu",
       email: "hussainmusalmanaltaf@gmail.com",
-      password: passwordHash,   
+      password: passwordHash,
+      imageUrl: "https://res.cloudinary.com/dstxmhwmy/image/upload/v1767017166/admins/dbbc7eqrfuszagbdunxk.jpg"
+         
     }
   })
    

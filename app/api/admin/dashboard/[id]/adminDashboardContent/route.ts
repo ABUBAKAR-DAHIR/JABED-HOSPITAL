@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma"
 import { NextResponse } from "next/server"
+import { startOfDay, endOfDay, addDays } from 'date-fns'
 
 export async function GET(req: Request, {params} : {params: Promise<{id: string}>}){
     try {
@@ -29,15 +30,55 @@ export async function GET(req: Request, {params} : {params: Promise<{id: string}
             }
         })
         
+
+        const now = new Date()
+
+        const todayStart = startOfDay(now)
+        const todayEnd = endOfDay(now)
+
+        const tomorrowStart = startOfDay(addDays(now, 1))
+        const tomorrowEnd = endOfDay(addDays(now, 1))
+
+        const todayAppointments = await prisma.appointment.findMany({
+        where: {
+            time: {
+            gte: todayStart,
+            lte: todayEnd,
+            },
+        },
+        })
+
+        const tomorrowAppointments = await prisma.appointment.findMany({
+        where: {
+            time: {
+            gte: tomorrowStart,
+            lte: tomorrowEnd,
+            },
+        },
+        })
+
+        const upcomingAppointments = await prisma.appointment.findMany({
+        where: {
+            time: {
+            gt: tomorrowEnd,
+            },
+        },
+        })
+
+
         const adminInfo = {
             adminName: admin.firstName,
             email: admin.email,
             gender: admin.gender,
+            imageUrl: admin.imageUrl,
             stats: {
                 doctors: doctors.length,
                 patients: patients.length,
                 appointments: appointments.length,
-                departments: departments.length
+                departments: departments.length,
+                todayAppointments: todayAppointments.length,
+                tomorrowAppointments: tomorrowAppointments.length,
+                upcomingAppointments: upcomingAppointments.length,
             }
         }
     

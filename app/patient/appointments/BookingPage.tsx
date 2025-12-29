@@ -23,65 +23,73 @@ export default function BookingPage({id} : {id: string}) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
+    try {
+        setLoading(true)
+    
+        if (!date || !time) {
+          alert("Please enter both date and time")
+          return
+        }
+    
+        // Parse the date string returned by DatePicker
+        const parsedDate = new Date(date)
+        if (isNaN(parsedDate.getTime())) {
+          setLoading(false)
+          alert("Invalid date format")
+          return
+        }
+    
+        // Parse time "HH:MM"
+        const [hours, minutes] = time.split(':').map(Number)
+    
+        // Set hours and minutes
+        parsedDate.setHours(hours)
+        parsedDate.setMinutes(minutes)
+        parsedDate.setSeconds(0)
+        parsedDate.setMilliseconds(0)
+    
+        // Assign ultimateDate
+        const finalDate = parsedDate.toISOString()
+    
+        console.log({
+          name,
+          phoneNumber,
+          finalDate,
+          time,
+          reason,
+        })
+    
+        const appointmentInfo = {
+          name,
+          phoneNumber,
+          finalDate,
+          time,
+          reason,
+        }
+    
+        const getRes = await fetch(`/api/patient/appointments`,
+          {
+              method: 'POST',
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify(appointmentInfo) 
+          }
+        )
+    
+        const res = await getRes.json()
+        if(res.success) {
+          setLoading(false)
+          router.push(`/patient/dashboard`) 
+        }
+        else{
+          setLoading(false)
+          console.error("Frontend error: ", res.error)
+        }
 
-    if (!date || !time) {
-      alert("Please enter both date and time")
-      return
-    }
-
-    // Parse the date string returned by DatePicker
-    const parsedDate = new Date(date)
-    if (isNaN(parsedDate.getTime())) {
+    } catch (error: any) {
+      console.log("Frontend error: ", error.message)
       setLoading(false)
-      alert("Invalid date format")
-      return
-    }
-
-    // Parse time "HH:MM"
-    const [hours, minutes] = time.split(':').map(Number)
-
-    // Set hours and minutes
-    parsedDate.setHours(hours)
-    parsedDate.setMinutes(minutes)
-    parsedDate.setSeconds(0)
-    parsedDate.setMilliseconds(0)
-
-    // Assign ultimateDate
-    const finalDate = parsedDate.toISOString()
-
-    console.log({
-      name,
-      phoneNumber,
-      finalDate,
-      time,
-      reason,
-    })
-
-    const appointmentInfo = {
-      name,
-      phoneNumber,
-      finalDate,
-      time,
-      reason,
-    }
-
-    const getRes = await fetch(`/api/patient/appointments`,
-      {
-          method: 'POST',
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(appointmentInfo) 
-      }
-    )
-
-    const res = await getRes.json()
-    if(res.success) {
+    } finally {
       setLoading(false)
-      router.push(`/patient/dashboard`) 
-    }
-    else{
-      setLoading(false)
-      console.error("Frontend error: ", res.error)
     }
       
   }
@@ -159,7 +167,7 @@ export default function BookingPage({id} : {id: string}) {
           <Button
             disabled={loading}
             type="submit"
-            className="cursor-pointer mt-6 w-full py-6 rounded-xl bg-linear-to-r from-green-700 to-green-400 text-white font-semibold hover:from-green-600 hover:to-green-700 transition"
+            className={`cursor-pointer mt-6 w-full py-6 rounded-xl bg-linear-to-r from-green-700 to-green-400 text-white font-semibold hover:from-green-600 hover:to-green-700 transition ${loading && 'cursor-not-allowed'}`}
           >
             {loading? <SpinnerCustom /> : 'Book Now'}
           </Button>

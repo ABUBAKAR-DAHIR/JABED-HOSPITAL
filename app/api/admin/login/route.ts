@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         if(!admin) return NextResponse.json({success: false, error: "Admin not found"})
 
         const isadmin = await bcrypt.compare(password, admin.password)
-        if(!isadmin) return NextResponse.json({success: false, error: "Wrong password found"})
+        if(!isadmin) return NextResponse.json({success: false, error: "Wrong password!"})
         
     
         return NextResponse.json({success: true, message: "Correct credentials", id: admin.id})

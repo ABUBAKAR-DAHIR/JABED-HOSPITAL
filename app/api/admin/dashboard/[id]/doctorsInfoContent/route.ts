@@ -7,6 +7,7 @@ export async function GET(req: Request){
 
         const doctorsInfo = doctors.map(doctor => {
             return {
+                id: doctor.id,
                 firstName: doctor.firstName,
                 middleName: doctor.middleName,
                 lastName: doctor.lastName,

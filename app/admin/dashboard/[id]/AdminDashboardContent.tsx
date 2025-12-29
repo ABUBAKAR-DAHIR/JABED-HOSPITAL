@@ -1,179 +1,211 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import {
-  Users,
-  Stethoscope,
-  CalendarDays,
-  Building2,
-  ShieldCheck
-} from "lucide-react"
-import { motion } from "framer-motion"
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { CalendarDays, DollarSign } from "lucide-react"
+import { useTheme } from "next-themes"
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts"
+import Image from "next/image"
+import React from "react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Route } from "./PageWrapper"
 
 export type AdminDashboardType = {
   adminName: string
   email: string
   gender: string
+  imageUrl?: string | null
   stats: {
     doctors: number
     patients: number
     appointments: number
     departments: number
+    todayAppointments: number
+    tomorrowAppointments: number
+    upcomingAppointments: number
   }
 }
 
 type Props = {
   dashboard?: AdminDashboardType
-  onNavigate?: (route: any) => void
+  onNavigate?: (route: Route) => void // 👈 Add this line
 }
 
-const container = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 }
-  }
-}
-
-const item = {
-  hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0 }
-}
+const userGrowthData = [
+  { date: "18 Dec", users: 1 },
+  { date: "20 Dec", users: 3 },
+  { date: "21 Dec", users: 1 },
+  { date: "23 Dec", users: 3 },
+  { date: "25 Dec", users: 1 },
+]
 
 export default function AdminDashboardContent({ dashboard }: Props) {
-
+  const { theme } = useTheme()
+  const isDark = theme === "dark"
+  console.log("Imageee: ", dashboard?.imageUrl)
   if (!dashboard) {
     return (
-      <div className="flex flex-col gap-8 p-4 pt-0 md:px-10">
+      <div className="flex flex-col gap-6 p-4 md:p-8">
+        {/* Header Skeleton */}
+        <Card>
+          <CardHeader className="flex items-center gap-4">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-6 w-32 rounded-md" />
+              <Skeleton className="h-4 w-24 rounded-md" />
+              <Skeleton className="h-4 w-16 rounded-md" />
+            </div>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 gap-2 text-center mt-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-4 w-2/5 mx-auto rounded" />
+                <Skeleton className="h-6 w mx-auto rounded" />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
 
-      {/* 🌟 Header Skeleton */}
-      <div className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-2xl border p-6 animate-pulse flex flex-col md:flex-row items-start gap-4">
-        <div className="p-3 rounded-xl bg-gray-200 flex items-center justify-center">
-          <Skeleton className="h-7 w-7 rounded-full" />
+        {/* Stat Cards Skeleton */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={i} className="p-4">
+              <div className="flex justify-between items-center mb-4">
+                <Skeleton className="h-4 w-20 rounded" />
+                <Skeleton className="h-6 w-6 rounded-full" />
+              </div>
+              <Skeleton className="h-8 w-24 mx-auto rounded-md" />
+            </Card>
+          ))}
         </div>
 
-        <div className="flex-1 space-y-2 w-full">
-          <Skeleton className="h-8 w-3/4 rounded-lg" /> {/* Welcome message */}
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-6 w-16 rounded-full" /> {/* Gender Badge */}
-          </div>
-          <Skeleton className="h-4 w-1/2 rounded-md mt-2" /> {/* Email */}
+        {/* Chart Skeletons */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Card key={i} className="p-4 space-y-4">
+              <Skeleton className="h-5 w-40 rounded-md" />
+              <Skeleton className="h-4 w-32 rounded" />
+              <Skeleton className="h-40 w-full rounded-xl" />
+            </Card>
+          ))}
         </div>
       </div>
-
-      {/* 📊 Stats Cards Skeleton */}
-      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div
-            key={i}
-            className="border rounded-xl p-4 flex flex-col gap-4 animate-pulse shadow-sm hover:shadow-md transition"
-          >
-            <div className="flex justify-between items-center">
-              <Skeleton className="h-5 w-24 rounded" /> {/* Title */}
-              <Skeleton className="h-6 w-6 rounded-full" /> {/* Icon circle */}
-            </div>
-
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-1/2 rounded-lg" /> {/* Value */}
-              <Skeleton className="h-3 w-3/4 rounded-md" /> {/* Subtitle */}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
     )
   }
 
-  const { stats } = dashboard
-
   return (
-    <div className="flex flex-col gap-8 p-4 pt-0 md:px-10">
-
-      {/* 🌟 Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative w-7/8 mx-auto overflow-hidden rounded-2xl border p-6"
-      >
-        <div className="flex items-start gap-4">
-          <div className="p-3 max-md:p-2 rounded-xl bg-primary/10">
-            <ShieldCheck className="h-7 w-7 text-primary max-md:size-4" />
-          </div>
-
-          <div>
-            <h1 className="text-3xl max-md:text-2xl font-bold tracking-tight">
-              Welcome, {dashboard.adminName}
-            </h1>
-
-            <div className="">
-              <Badge variant="default" className="max-md:text-[10px]">
-                {dashboard.gender}
-              </Badge>
-
-              <p className="text-sm text-muted-foreground py-4">
-                {dashboard.email}
+    <div className="flex flex-col gap-6 p-4 md:p-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card>
+          <CardHeader className="flex items-center gap-4">
+            <Image
+              src={dashboard.imageUrl || "/avatar-placeholder.jpg"}
+              alt="Admin avatar"
+              width={48}
+              height={48}
+              className="rounded-full"
+            />
+            <div>
+              <CardTitle className="text-lg">Welcome Back!</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {dashboard.adminName}
               </p>
-
+              <Badge className="mt-1 text-xs">{dashboard.gender}</Badge>
             </div>
-          </div>
+          </CardHeader>
+
+          <CardContent className="grid grid-cols-2 gap-2 text-center">
+            <Stat label="Doctors" value={dashboard.stats.doctors} />
+            <Stat label="Patients" value={dashboard.stats.patients} />
+            <Stat label="Appointments" value={dashboard.stats.appointments} />
+            <Stat label="Departments" value={dashboard.stats.departments} />
+          </CardContent>
+        </Card>
+
+        <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+          <StatCard title="Appointments" value={dashboard.stats.appointments} icon={<CalendarDays />} />
+          <StatCard title="Revenue" value="$0.00" icon={<DollarSign />} />
+          <StatCard title="Today’s Earning" value="$0.00" icon={<DollarSign />} />
+          <StatCard title="Today’s Appointments" value={dashboard.stats.todayAppointments} icon={<CalendarDays />} />
+          <StatCard title="Tomorrow Appointments" value={dashboard.stats.todayAppointments} icon={<CalendarDays />} />
+          <StatCard title="Upcoming Appointments" value={dashboard.stats.upcomingAppointments} icon={<CalendarDays />} />
         </div>
-      </motion.div>
+      </div>
 
-      {/* 📊 Stats Cards */}
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="visible"
-        className="w-4/5 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
-        {[
-          {
-            title: "Doctors",
-            value: stats.doctors,
-            icon: <Stethoscope className="text-blue-600" />,
-            subtitle: "Registered doctors"
-          },
-          {
-            title: "Patients",
-            value: stats.patients,
-            icon: <Users className="text-emerald-600" />,
-            subtitle: "Active patients"
-          },
-          {
-            title: "Appointments",
-            value: stats.appointments,
-            icon: <CalendarDays className="text-amber-600" />,
-            subtitle: "Total appointments"
-          },
-          {
-            title: "Departments",
-            value: stats.departments,
-            icon: <Building2 className="text-purple-600" />,
-            subtitle: "Hospital departments"
-          }
-        ].map((card, i) => (
-          <motion.div key={i} variants={item}>
-            <Card className="hover:shadow-xl transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">
-                  {card.title}
-                </CardTitle>
-                {card.icon}
-              </CardHeader>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>This Month’s Signups</CardTitle>
+            <p className="text-sm text-muted-foreground">Total: 9 users</p>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={userGrowthData}>
+                <XAxis dataKey="date" stroke={isDark ? "#ccc" : "#fffd"} />
+                <YAxis stroke={isDark ? "#ccc" : "#fffd"} />
+                <Tooltip />
+                <Bar dataKey="users" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
-              <CardContent>
-                <p className="text-3xl font-bold">{card.value}</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {card.subtitle}
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
-
+        <Card>
+          <CardHeader>
+            <CardTitle>Monthly Analytics</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              100% growth since last month
+            </p>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center h-40">
+            <div className="text-center">
+              <p className="text-2xl font-bold">+100%</p>
+              <p className="text-sm text-muted-foreground">User growth</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
+  )
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div>
+      <p className="text-sm">{label}</p>
+      <p className="font-bold">{value}</p>
+    </div>
+  )
+}
+
+type StatCardProps = {
+  title: string
+  value: string | number
+  icon: React.ReactNode
+}
+
+function StatCard({ title, value, icon }: StatCardProps) {
+  return (
+    <Card className="text-center">
+      <CardHeader className="flex flex-row justify-between items-center pb-2">
+        <CardTitle className="text-sm">{title}</CardTitle>
+        <div className="text-primary">{icon}</div>
+      </CardHeader>
+      <CardContent>
+        <p className="text-2xl font-bold">{value}</p>
+      </CardContent>
+    </Card>
   )
 }

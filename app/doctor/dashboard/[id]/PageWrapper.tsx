@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import NotesContent from "./NotesContent"
-import AppointmentsContent from "./AppointmentsContent"
+import AppointmentsContent, { DoctorAppointmentType } from "./AppointmentsContent"
 import NotificationsContent from "./NotificationsContent"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import DoctorDashboardContent, { DoctorDashboardType } from "./DoctorDashboardContent"
@@ -25,6 +25,12 @@ export default function PageWrapper({ kindeUser }: { kindeUser: any }) {
   // doctor info state
   const [doctorInfo, setDoctorInfo] = useState<DoctorInfoType>()
   const [doctorInfoLoading, setDoctorInfoLoading] = useState(false)
+
+  // apointments
+  // appointments state
+  const [appointments, setAppointments] = useState<DoctorAppointmentType[]>()
+  const [appointmentsLoading, setAppointmentsLoading] = useState(false)
+
 
   // Fetch dashboard only when dashboard tab is active
   useEffect(() => {
@@ -71,6 +77,29 @@ export default function PageWrapper({ kindeUser }: { kindeUser: any }) {
     loaddoctorInfo()
   }, [active, doctorInfo])
 
+  // appointments
+  useEffect(() => {
+    if (active !== "appointments" || appointments) return
+
+    const loadAppointments = async () => {
+      setAppointmentsLoading(true)
+      try {
+        const res = await fetch(
+          `/api/doctor/dashboard/${kindeUser.id}/doctorAppointmentsContent`
+        )
+        const data = await res.json()
+        setAppointments(data.appointments)
+      } catch (error: any) {
+        console.error("Appointments error:", error.message)
+      } finally {
+        setAppointmentsLoading(false)
+      }
+    }
+
+    loadAppointments()
+  }, [active, appointments])
+
+
   const renderContent = () => {
     switch (active) {
       case "dashboard":
@@ -78,7 +107,7 @@ export default function PageWrapper({ kindeUser }: { kindeUser: any }) {
       case "doctor-info":
         return <DoctorInfoContent doctorInfo={doctorInfo} />
       case "appointments":
-        return <AppointmentsContent />
+        return <AppointmentsContent appointments={appointments}/>
       case "notifications":
         return <NotificationsContent />
       default:

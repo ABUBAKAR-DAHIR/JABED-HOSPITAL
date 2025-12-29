@@ -47,7 +47,7 @@ export const DatePicker = React.forwardRef<HTMLInputElement, DatePickerProps>(
       setDate(selectedDate)
       const formatted = formatDate(selectedDate)
       setValue(formatted)
-      onChange?.(formatted)
+      onChange?.(selectedDate?.toISOString() || '') // ✅ sends ISO string
       setOpen(false)
     }
 

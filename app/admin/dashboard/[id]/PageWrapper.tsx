@@ -8,7 +8,6 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { AdminSidebar } from "@/components/AdminSidebar"
 import AdminDashboardContent, { AdminDashboardType } from "./AdminDashboardContent"
 import AdminDoctorsContent, { AdminDoctor, AdminDoctorProps } from "./AdminDoctorsContent"
-import AdminDoctorsContentTest from "./AdminDoctorsContentTest"
 import { getDepartments } from "./departments"
 import AdminPatientsInfo, { AdminPatientType } from "./AdminPatientsInfo"
 import AdminInfoContent, { AdminInfoType } from "./AdminInfoContent"

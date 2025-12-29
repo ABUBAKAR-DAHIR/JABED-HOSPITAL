@@ -21,6 +21,7 @@ export async  function GET(req: Request) {
             where: {
                 patientId: patient.id
             },
+            include: {doctor: true},
             orderBy: {time: 'asc'}
         })
 
@@ -29,13 +30,13 @@ export async  function GET(req: Request) {
         const lastAppointment = appointments.length > 0 ? appointments[appointments.length-1] : null
         const visits = appointments.filter(appointment => appointment.resolved && ({
             time: appointment.time,
-            assignedDoctor: appointment.assignedDoctor
+            assignedDoctor: appointment.doctor && appointment.doctor?.firstName + " " + appointment.doctor?.lastName
         }))
 
         const content = {
             patientName: patient.firstName,
             nextAppointment: lastAppointment && lastAppointment.resolved === false ? lastAppointment.time : null,
-            assignedDoctor: lastAppointment && lastAppointment.resolved === false ? lastAppointment.assignedDoctor : null,
+            assignedDoctor: lastAppointment && lastAppointment.resolved === false ? lastAppointment.doctor?.firstName + " " + lastAppointment.doctor?.lastName : null,
             visits: visits
         }
     

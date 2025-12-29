@@ -21,7 +21,7 @@ export default async function page() {
     const patientAlreadyAppointed = await prisma.patient.findFirst({
       where: {
         kindId: user.id,
-        appointment: {
+        appointments: {
           some: {
             resolved: false
           }
