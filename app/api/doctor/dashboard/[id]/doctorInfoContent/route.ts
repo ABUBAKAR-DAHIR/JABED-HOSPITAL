@@ -10,7 +10,7 @@ export async function GET(req: Request, {params} : {params: Promise<{id: string}
     
         const doctor = await prisma.doctor.findUnique({
             where: {id: id},
-            include: {appointment: true}
+            include: {appointments: true}
         })
     
         if(!doctor) return NextResponse.json({success: false, error: 'Invalid doctor id'})
@@ -22,7 +22,7 @@ export async function GET(req: Request, {params} : {params: Promise<{id: string}
             }
         })
     
-        const appointments = doctor.appointment.map(appointment => {
+        const appointments = doctor.appointments.map(appointment => {
             return {
                 time: appointment.time,
                 patientName: appointment.fullName,
