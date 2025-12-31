@@ -33,8 +33,9 @@ export async function GET(req: Request, {params} : {params: Promise<{id: string}
         })
         
         const doctorInfo = {
-            doctorName: doctor.firstName,
+            doctorName: doctor.firstName + " " + doctor.lastName,
             email: doctor.email,
+            image: doctor.imageUrl,
             department: department?.name,
             appointments: appointments
         }

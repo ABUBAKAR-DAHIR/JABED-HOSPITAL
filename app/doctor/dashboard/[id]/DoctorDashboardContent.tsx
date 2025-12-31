@@ -6,6 +6,8 @@ import { Clock, User, CalendarDays, Bell, Stethoscope } from "lucide-react"
 import { motion } from "framer-motion"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Route } from "./PageWrapper"
+import Image from "next/image"
+
 
 type AppointmentType = {
   time: string
@@ -18,6 +20,7 @@ export type DoctorDashboardType = {
   doctorName: string
   email: string
   department: string
+  image: string
   appointments: AppointmentType[]
 }
 
@@ -67,6 +70,19 @@ export default function DoctorDashboardContent({ dashboard, onNavigate }: Dashbo
       {/* Top Cards */}
       <div className="grid md:grid-cols-4 gap-4">
         {[{
+          title: "Doctor",
+          icon: <div className="relative h-12 w-12 overflow-hidden rounded-full shrink-0">
+                  <Image
+                    src={dashboard.image}
+                    alt="doctor_image"
+                    fill
+                    className="object-cover"
+                  />
+                </div>,
+          // icon: <Image src={dashboard.image} width={50} height={50}  className=" rounded-full object-cover" alt="doctor_image" />,
+          info: "Dr. " + dashboard.doctorName,
+          nav: "profile"
+        },{
           title: "Email",
           icon: <User className="h-6 w-6 text-blue-600" />,
           info: dashboard.email,
@@ -83,7 +99,7 @@ export default function DoctorDashboardContent({ dashboard, onNavigate }: Dashbo
           nav: "appointments"
         }].map((item, i) => (
           <Card key={i} className="cursor-pointer hover:shadow-lg p-4 w-full" onClick={() => onNavigate(item.nav as Route)}>
-            <CardHeader className="flex gap-4 pb-2">{item.icon}<CardTitle>{item.title}</CardTitle></CardHeader>
+            <CardHeader className="flex gap-4 pb-2 items-center">{item.icon}<CardTitle>{item.title}</CardTitle></CardHeader>
             <CardContent className="text-muted-foreground pt-2">{item.info}</CardContent>
           </Card>
         ))}
