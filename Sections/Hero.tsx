@@ -9,7 +9,7 @@ import Link from 'next/link'
 export default function Hero() {
   return (
     <section className="relative">
-      <div className="mx-auto flex min-h-screen max-w-7xl items-center px-6 md:px-14">
+      <div className="mx-auto flex min-h-screen max-w-7xl items-center px-6 md:px-14 overflow-hidden">
 
       {/* <div className="container mx-auto flex min-h-screen items-center px-6 md:px-14"> */}
         <div className="grid w-full grid-cols-1 items-center gap-16 lg:grid-cols-2">
